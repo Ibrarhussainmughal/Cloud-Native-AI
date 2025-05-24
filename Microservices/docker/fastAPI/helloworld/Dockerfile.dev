@@ -1,0 +1,21 @@
+FROM python:3.12
+
+# Install Poetry
+RUN pip install poetry
+
+# Metadata
+LABEL MAINTAINER="Ibrar.ali69.ia@gmail.com"
+
+# Set working directory
+WORKDIR /code
+
+# Copy necessary files
+COPY ./pyproject.toml /code/
+COPY ./README.md /code/             
+COPY ./helloworld /code/helloworld/
+
+# Install dependencies using Poetry
+RUN poetry install
+
+# Run the FastAPI app
+CMD [ "poetry", "run", "uvicorn", "helloworld.main:app", "--host", "0.0.0.0" ]
